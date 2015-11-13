@@ -96,8 +96,8 @@ public class CASS {
 		/* Conver ArrayString -> Array */
 		String[] course_arr = highest_course.toArray(new String[highest_course.size()]);
 		
-		for( String s : course_arr )
-			System.out.println( s );
+		//for( String s : course_arr )
+			//System.out.println( s );
 
 		return course_arr;
 	}

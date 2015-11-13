@@ -6,8 +6,10 @@
 
  ;Function that calls the java class
 (deffunction calljava ()
-      (bind ?*external-class* (new scanner))
-    (bind ?*highestCredit* (?*external-class* HighestCredits ))
+      (bind ?*external-class* (new CASS))
+    (bind ?*highestCredit* (?*external-class* HighestCredit ))
+        (printout t crlf ?*higestCredit* crlf)
+    
         (bind ?*list* (list ""))
     )
 (calljava)
