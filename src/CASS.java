@@ -89,6 +89,9 @@ public class CASS {
 			if( highest == psych_match && !prev_course.equalsIgnoreCase("AB PSYCHOLOGY") ) {
 				highest_course.add( "AB PYSCHOLOGY" );
 			}
+			if( highest_course.size() == 1 ) {
+				highest_course.remove(0);
+			}
 		} else {
 			HighestCredit();
 		}
