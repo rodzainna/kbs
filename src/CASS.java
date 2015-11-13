@@ -69,6 +69,8 @@ public class CASS {
 		ArrayList<String> highest_course = new ArrayList<String>();
 		
 		if( highest != 0 ) {
+			// insert the highest number of units at the start of the array
+			highest_course.add( Integer.toString( highest ) );
 			if( highest == eng_match && !prev_course.equalsIgnoreCase("AB ENGLISH") ) {
 				highest_course.add( "AB ENGLISH" );
 			}
@@ -87,8 +89,6 @@ public class CASS {
 			if( highest == psych_match && !prev_course.equalsIgnoreCase("AB PSYCHOLOGY") ) {
 				highest_course.add( "AB PYSCHOLOGY" );
 			}
-			// insert the highest number of units to the end of the array
-			highest_course.add( Integer.toString( highest ) );
 		} else {
 			HighestCredit();
 		}
