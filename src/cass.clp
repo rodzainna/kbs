@@ -1,16 +1,21 @@
+(reset)
+
 (defglobal ?*external-class* = 0
-    		?*highestCredit* = ""
-    		?*resultEng* = ""
+    		?*highCredit* = ""
+    		?*status* = ""
     		  ?*list* = ""
     )
+
+(deffunction display ()
+        (printout t crlf "This Expert System will determine the possible CASS course you may shift:" crlf crlf "Please Provide all necessary information:" crlf crlf))
+ (display)
 
  ;Function that calls the java class
 (deffunction calljava ()
       (bind ?*external-class* (new CASS))
-    (bind ?*highestCredit* (?*external-class* HighestCredit ))
-        (printout t crlf ?*higestCredit* crlf)
-    
+	(bind ?*highCredit* (?*external-class* HighCredit ))
         (bind ?*list* (list ""))
+    (printout t "No. of units credited and Course with high credit: " ?*highCredit* crlf crlf )
     )
 (calljava)
 
@@ -18,26 +23,26 @@
 ;Function that determines the Highest Course Credited
 (deffunction creditSubject ()
    (try
-    (if (< 0 (member$ "AB FILIPIN0" ?*highestCredit*) )then
-        (assert (hCredFil))) catch())
+    (if (< 0 (member$ "AB FILIPINO" ?*highCredit*) )then
+        (assert (hCredFil))else (assert (notFil))) catch(assert (notFil)))
     (try
-    (if (< 0 (member$ "AB ENGLISH" ?*highestCredit*) )then
-        (assert (hCredEng))) catch())
+    (if (< 0 (member$ "AB ENGLISH" ?*highCredit*) )then
+        (assert (hCredEng))else (assert (notEng))) catch(assert (notEng)))
     (try
-    (if (< 0 (member$ "AB HISTORY" ?*highestCredit*) )then
-        (assert (hCredHist))) catch())
+    (if (< 0 (member$ "AB HISTORY" ?*highCredit*) )then
+        (assert (hCredHist)) else (assert (notHist))) catch(assert (notHist)))
     (try
-    (if (< 0 (member$ "AB SOCIOLOGY" ?*highestCredit*) )then
+    (if (< 0 (member$ "AB SOCIOLOGY" ?*highCredit*) )then
         (assert (hCredSocio))
-            else (assert (notSocio))) catch())
+            else (assert (notSocio))) catch(assert (notSocio)))
      (try
-    (if (< 0 (member$ "AB POLITICAL SCIENCE" ?*highestCredit*) )then
+    (if (< 0 (member$ "AB POLITICAL SCIENCE" ?*highCredit*) )then
         (assert (hCredPolSci))
-            else (assert (notPolSci))) catch())
+            else (assert (notPolSci))) catch(assert (notPolSci)))
     (try
-    (if (< 0 (member$ "AB PSYCHOLOGY" ?*highestCredit*) )then
+    (if (< 0 (member$ "AB PYSCHOLOGY" ?*highCredit*) )then
         (assert (hCredPsych))
-            else (assert (notPsych))) catch())
+            else (assert (notPsych))) catch(assert (notPsych)))
     )
 (creditSubject)
 
@@ -49,8 +54,8 @@
     (try
         (if (eq (read) "yes") then
     		(assert (gradeEngHigh))
-                (ask-question-eng))
-            else (assert (notEng))    
+                (ask-question-eng)
+            else (assert (notEng)))    
      catch () )
   )
 
@@ -60,8 +65,8 @@
   (try
      (if (eq (read) "yes") then
     (assert (gradeHistHigh))
-                (ask-question-hist))
-            else (assert (notHist))             
+                (ask-question-hist)
+            else (assert (notHist)))             
    catch () ))
 
 ;Function that Ask the user his/her Grade
@@ -80,8 +85,8 @@
   (try
      (if (eq (read) "yes") then
     (assert (gradePolSciHigh))
-                     (ask-question-polsci))  
-        else (assert (notPolsci))      
+                     (ask-question-polsci)
+        else (assert (notPolSci)))
    catch () ))
 
 ;Function that Ask the user his/her Grade
@@ -90,8 +95,8 @@
   (try
      (if (eq (read) "yes") then
     (assert (gradePsychHigh))
-                     (ask-question-psych)) 
-        else (assert (notPsych))       
+                     (ask-question-psych) 
+        else (assert (notPsych)))       
    catch () ))
 ;Function that Ask the user his/her Grade
 
@@ -100,8 +105,8 @@
   (try
      (if (eq (read) "yes") then
     (assert (gradeSocioHigh))
-                     (ask-question-socio))  
-        else (assert (notSocio))
+                     (ask-question-socio)  
+        else (assert (notSocio)))
    catch () ))
 
 
@@ -140,8 +145,8 @@
   (printout t "Is your interest deals with systems of government and the analysis of political activity and political behavior?(yes/no): " crlf)
     (try
         (if (eq (read) "yes") then
-    		(assert (interestPolsci))
-         else (assert (notPolsci)))
+    		(assert (interestPolSci))
+         else (assert (notPolSci)))
      catch () )
   )
 
@@ -193,7 +198,7 @@
 (defrule Rule4-ProbPolSci
     (hCredPolSci)
     =>
-    (assert (hProbPoSci))
+    (assert (hProbPolSci))
         (ask-grade-polsci)
     )
 
@@ -324,7 +329,7 @@
         (InclinePolSci)
     (hProbPolSci))
     =>
-    (assert (EnrollFil))
+    (assert (EnrollPolSci))
 (bind ?*list* (insert$ ?*list* 2 (list "AB POLITICAL SCIENCE"))))
 
 ;Rule 23: Advice Course is AB Pychology
@@ -345,9 +350,23 @@
     (assert (EnrollSocio))
         (bind ?*list* (insert$ ?*list* 2 (list "AB SOCIOLOGY"))))
 
+;Rule 25: No Advice Course for CASS
+(defrule Rule25-NoCourse
+    (and
+        (notEng)
+    	(notSocio)
+        (notFil)
+        (notHist)
+        (notPolSci)
+        (notPsych))
+    =>
+    (assert (NoAdviceCourse))
+        (bind ?*list* (insert$ ?*list* 2 (list "Given the facts, the system was not able derive to any CASS course we advice that you try other Colleges."))))
 
+;(watch rules)
 (run)
-(facts)
+
+;(facts)
 
 (deffunction concatinate ()
     (bind ?counter (length$ ?*list*))
@@ -358,10 +377,38 @@
     	(bind ?temp (rest$ ?temp))
     	(bind ?counter (- ?counter 1)))
     )
+(deffunction calculateStatus ()
+    (bind ?units (integer (nth$ 1 ?*highCredit*)))
+    
+    (if (eq (nth$ 2 ?*list*) "Given the facts, the system was not able derive to any CASS course we advice that you try other Colleges.") then
+        
+    else
+    (if (and (< 0 ?units) (> 23 ?units)) then
+        (bind ?*status* "Status: 1st year (Irregular)"))
+    (if (and (< 22 ?units) (> 46 ?units)) then
+        (bind ?*status* "Status: 1st year (Regular)"))
+    (if (and (< 45 ?units) (> 69 ?units)) then
+        (bind ?*status* "Status: 2nd year (Irregular)"))
+    (if (and (< 68 ?units) (> 92 ?units)) then
+        (bind ?*status* "Status: 2nd year (Regular)"))
+    (if (and (< 91 ?units) (> 110 ?units)) then
+        (bind ?*status* "Status: 3rd year (Irregular)"))
+    (if (and (< 109 ?units) (> 122 ?units)) then
+        (bind ?*status* "Status: 3rd year (Regular)"))
+    (if (and (< 121 ?units) (> 140 ?units)) then
+        (bind ?*status* "Status: 4th year (Irregular)"))
+    (if (and (< 139 ?units) (> 152 ?units)) then
+        (bind ?*status* "Status: 4th year (Regular)"))
+    (printout t  ?*status*)
+        )
+    
+    )
 
 (deffunction printResult ()
+    
     (printout t crlf  "RESULT: Suited Coure/s "crlf)
 	(concatinate)
+    (calculateStatus)
     
     )
 

@@ -5,10 +5,10 @@ import java.util.*;
 
 public class CASS {
 	public static void main ( String args[] ) {
-		HighestCredit();
+		HighCredit();
 	}
 
-	public static String[] HighestCredit(){
+	public static String[] HighCredit(){
 		//Scanner for user input
 		Scanner sc = new Scanner( System.in );
 		
@@ -93,7 +93,7 @@ public class CASS {
 				highest_course.remove(0);
 			}
 		} else {
-			HighestCredit();
+			HighCredit();
 		}
 		
 		/* Conver ArrayString -> Array */
