@@ -1,23 +1,380 @@
 (reset)
 
-(defglobal ?*external-class* = 0
-    		?*highCredit* = ""
-    		?*status* = ""
-    		  ?*list* = ""
+(defglobal 
+    ?*engCredit* = 0
+    ?*filCredit* = 0
+    ?*histCredit* = 0
+    ?*socioCredit* = 0
+    ?*psychCredit* = 0
+    ?*polsciCredit* = 0
+    ?*highCredit* =""
+	?*status* = ""
+	?*list* = ""
     )
 
 (deffunction display ()
         (printout t crlf "This Expert System will determine the possible CASS course you may shift:" crlf crlf "Please Provide all necessary information:" crlf crlf))
  (display)
 
- ;Function that calls the java class
-(deffunction calljava ()
-      (bind ?*external-class* (new CASS))
-	(bind ?*highCredit* (?*external-class* HighCredit ))
-        (bind ?*list* (list ""))
-    (printout t "No. of units credited and Course with high credit: " ?*highCredit* crlf crlf )
+
+(assert (start-question))
+(deffunction add-credit ()
+	(bind ?*engCredit* (+ ?*engCredit* 3))
+    (bind ?*filCredit* (+ ?*filCredit* 3))
+    (bind ?*histCredit* (+ ?*histCredit* 3))
+    (bind ?*socioCredit* (+ ?*socioCredit* 3))
+    (bind ?*psychCredit* (+ ?*psychCredit* 3))
+    (bind ?*polsciCredit* (+ ?*polsciCredit* 3))
+    
     )
-(calljava)
+
+(deffunction add-credit-2 ()
+	(bind ?*engCredit* (+ ?*engCredit* 2))
+    (bind ?*filCredit* (+ ?*filCredit* 2))
+    (bind ?*histCredit* (+ ?*histCredit* 2))
+    (bind ?*socioCredit* (+ ?*socioCredit* 2))
+    (bind ?*psychCredit* (+ ?*psychCredit* 2))
+    (bind ?*polsciCredit* (+ ?*polsciCredit* 2))
+    )
+
+(defrule question1
+    (start-question)
+    =>
+    (printout t "Have you taken ENG1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit))
+        catch())
+    (printout t "Have you taken ENG2? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            (assert (q2)))
+        catch())
+    (printout t "Have you taken ENG3? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            (assert (q3)))
+        catch())
+    (printout t "Have you taken HIST1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            (assert (q4)))
+        catch())
+    (printout t "Have you taken BIO1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit))
+        catch())
+    (printout t "Have you taken NATSCI1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit))
+        catch())
+    (printout t "Have you taken FIL1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            (assert (q5)))
+        catch())
+    (printout t "Have you taken MATH1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            (assert (q6)))
+        catch())
+    (printout t "Have you taken MATH31? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit))
+        catch())
+    (printout t "Have you taken LIT1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            (assert (q7)))
+        catch())
+    (printout t "Have you taken PE1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit-2)
+            (assert (q8)))
+        catch())
+    (printout t "Have you taken NSTP1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            (assert (q9)))
+        catch())
+    (printout t "Have you taken HUM1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit))
+        catch())
+    (printout t "Have you taken PSYCH1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit))
+        catch())
+    (printout t "Have you taken SOCIO1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit))
+        catch())
+    (printout t "Have you taken ANTHRO1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+         	(bind ?*socioCredit* (+ ?*socioCredit* 3))
+		)
+        catch())
+    (printout t "Have you taken ECON1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+         	(bind ?*histCredit* (+ ?*histCredit* 3))
+         	(bind ?*socioCredit* (+ ?*socioCredit* 3))
+         	(bind ?*polsciCredit* (+ ?*polsciCredit* 3))
+            )
+        catch())
+    (printout t "Have you taken PHILO1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+         	(bind ?*socioCredit* (+ ?*socioCredit* 3))
+            (assert (q10)))
+        catch())
+    (printout t "Have you taken POLSCI1? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*histCredit* (+ ?*histCredit* 3)))
+        catch())
+        (printout t "Have you taken POLSCI2? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*filCredit* (+ ?*filCredit* 3))
+         	(bind ?*histCredit* (+ ?*histCredit* 3))
+            )
+        catch())
+    )
+
+(defrule question-2
+    (q2)
+    =>
+    (printout t "Have you taken ENG4? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+    		(bind ?*histCredit* (+ ?*histCredit* 3))
+            (assert (q11)))
+        catch())
+    )
+
+(defrule question-3
+    (q3)
+    =>
+    (printout t "Have you taken ENG7? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+            (assert (q12)))
+        catch())
+    )
+
+(defrule question-4
+    (q4)
+    =>
+    (printout t "Have you taken HIST3? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            (assert (q13)))
+        catch())
+    )
+
+(defrule question-5
+    (q5)
+    =>
+    (printout t "Have you taken FIL2? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*filCredit* (+ ?*filCredit* 3))
+            (assert (q14)))
+        catch())
+    )
+
+(defrule question-6
+    (q6)
+    =>
+    (printout t "Have you taken MATH14? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*socioCredit* (+ ?*socioCredit* 3))
+            )
+        catch())
+    )
+
+(defrule question-7
+    (q7)
+    =>
+    (printout t "Have you taken LIT2? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            )
+        catch())
+    )
+
+(defrule question-8
+    (q8)
+    =>
+    (printout t "Have you taken PE2? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit-2)
+            (assert (q15)))
+        catch())
+    )
+
+(defrule question-9
+    (q9)
+    =>
+    (printout t "Have you taken NSTP2? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         (add-credit)
+            )
+        catch())
+    )
+
+(defrule question-10
+    (q10)
+    =>
+    (printout t "Have you taken PHILO2? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*filCredit* (+ ?*filCredit* 3))
+         	(bind ?*histCredit* (+ ?*histCredit* 3))
+            )
+        catch())
+    )
+
+(defrule question-11
+    (q11)
+    =>
+    (printout t "Have you taken ENG8? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+         	(bind ?*histCredit* (+ ?*histCredit* 3))
+         	(bind ?*socioCredit* (+ ?*socioCredit* 3))
+            )
+        catch())
+    )
+
+(defrule question-12
+    (q12)
+    =>
+    (printout t "Have you taken ENG5? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+         	(bind ?*polsciCredit* (+ ?*polsciCredit* 3))
+            )
+        catch())
+    )
+
+(defrule question-13
+    (q13)
+    =>
+    (printout t "Have you taken HIST5? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+         	(bind ?*filCredit* (+ ?*filCredit* 3))
+          	(bind ?*histCredit* (+ ?*histCredit* 3))
+           )
+        catch())
+    )
+
+(defrule question-14
+    (q14)
+    =>
+    (printout t "Have you taken FIL3? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+         	(bind ?*engCredit* (+ ?*engCredit* 3))
+         	(bind ?*filCredit* (+ ?*filCredit* 3))
+          	(bind ?*polsciCredit* (+ ?*polsciCredit* 3))
+           (assert (q17)))
+        catch())
+    )
+
+(defrule question-15
+    (q15)
+    =>
+    (printout t "Have you taken PE3? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+			(add-credit-2)
+           (assert (q16)))
+        catch())
+    )
+
+(defrule question-16
+    (q16)
+    =>
+    (printout t "Have you taken PE4? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+			(add-credit-2)
+           )
+        catch())
+    )
+
+(defrule question-17
+    (q17)
+    =>
+    (printout t "Have you taken FIL5? yes/no:")
+    (try
+        (if (eq (read) "yes") then
+          	(bind ?*histCredit* (+ ?*histCredit* 3))
+           )
+        catch())
+    )
+
+(run)
+
+(deffunction calculate-max ()
+    (bind ?*list* (list ""))
+    (bind ?*highCredit* (list ""))
+    
+    (bind ?num (max ?*engCredit* ?*filCredit* ?*histCredit* ?*socioCredit* ?*psychCredit* ?*polsciCredit*))
+    (bind ?*highCredit* (insert$ ?*highCredit* 1 (list ?num)))
+    (if (eq ?num ?*engCredit*) then 
+                (bind ?*highCredit* (insert$ ?*highCredit* 2 (list "AB ENGLISH")))
+        )
+    (if (eq ?num ?*filCredit*) then 
+                (bind ?*highCredit* (insert$ ?*highCredit* 2 (list "AB FILIPINO")))
+        )
+    (if (eq ?num ?*histCredit*) then 
+                (bind ?*highCredit* (insert$ ?*highCredit* 2 (list "AB HISTORY")))
+        )
+    (if (eq ?num ?*socioCredit*) then 
+                (bind ?*highCredit* (insert$ ?*highCredit* 2 (list "AB SOCIOLOGY")))
+        )
+    (if (eq ?num ?*psychCredit*) then 
+                (bind ?*highCredit* (insert$ ?*highCredit* 2 (list "AB PSYCHOLOGY")))
+        )
+    (if (eq ?num ?*polsciCredit*) then 
+                (bind ?*highCredit* (insert$ ?*highCredit* 2 (list "AB POLITICAL SCIENCE")))
+        )
+    ;(printout t crlf ?*highCredit* crlf)
+    )
+
+(calculate-max)
 
 
 ;Function that determines the Highest Course Credited
@@ -40,9 +397,10 @@
         (assert (hCredPolSci))
             else (assert (notPolSci))) catch(assert (notPolSci)))
     (try
-    (if (< 0 (member$ "AB PYSCHOLOGY" ?*highCredit*) )then
+    (if (< 0 (member$ "AB PSYCHOLOGY" ?*highCredit*) )then
         (assert (hCredPsych))
             else (assert (notPsych))) catch(assert (notPsych)))
+    ;(facts)
     )
 (creditSubject)
 
@@ -399,7 +757,7 @@
         (bind ?*status* "Status: 4th year (Irregular)"))
     (if (and (< 139 ?units) (> 152 ?units)) then
         (bind ?*status* "Status: 4th year (Regular)"))
-    (printout t  ?*status*)
+    (printout t  ?*status* " with " ?units " units credited.")
         )
     
     )
